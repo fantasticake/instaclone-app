@@ -1,0 +1,318 @@
+import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+/** All built-in and custom scalars, mapped to their actual values */
+export type Scalars = {
+  ID: string;
+  String: string;
+  Boolean: boolean;
+  Int: number;
+  Float: number;
+  /** The `Upload` scalar type represents a file upload. */
+  Upload: any;
+};
+
+export type Comment = {
+  __typename?: 'Comment';
+  createdAt: Scalars['String'];
+  id: Scalars['Int'];
+  payload: Scalars['String'];
+  photo: Photo;
+  updatedAt: Scalars['String'];
+  user: User;
+};
+
+export type Hashtag = {
+  __typename?: 'Hashtag';
+  createdAt: Scalars['String'];
+  hashtag: Scalars['String'];
+  id: Scalars['Int'];
+  updatedAt: Scalars['String'];
+};
+
+export type LoginRes = {
+  __typename?: 'LoginRes';
+  error?: Maybe<Scalars['String']>;
+  ok: Scalars['Boolean'];
+  token?: Maybe<Scalars['String']>;
+};
+
+export type Message = {
+  __typename?: 'Message';
+  createdAt: Scalars['String'];
+  id: Scalars['Int'];
+  payload: Scalars['String'];
+  unread: Scalars['Boolean'];
+  updatedAt: Scalars['String'];
+  user: User;
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  createComment: MutationRes;
+  createMessage: MutationRes;
+  createPhoto: MutationRes;
+  createRoom: MutationRes;
+  deleteAccount: MutationRes;
+  deleteComment: MutationRes;
+  deletePhoto: MutationRes;
+  editComment: MutationRes;
+  editPhoto: MutationRes;
+  editProfile: MutationRes;
+  exitRoom: MutationRes;
+  follow: MutationRes;
+  likePhoto: MutationRes;
+  login: LoginRes;
+  readMessage: MutationRes;
+  signUp: MutationRes;
+  unfollow: MutationRes;
+  unlikePhoto: MutationRes;
+};
+
+
+export type MutationCreateCommentArgs = {
+  payload: Scalars['String'];
+  photoId: Scalars['Int'];
+};
+
+
+export type MutationCreateMessageArgs = {
+  payload: Scalars['String'];
+  roomId?: InputMaybe<Scalars['Int']>;
+  userId?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type MutationCreatePhotoArgs = {
+  caption?: InputMaybe<Scalars['String']>;
+  file: Scalars['Upload'];
+};
+
+
+export type MutationCreateRoomArgs = {
+  userId: Scalars['Int'];
+};
+
+
+export type MutationDeleteCommentArgs = {
+  commentId: Scalars['Int'];
+};
+
+
+export type MutationDeletePhotoArgs = {
+  photoId: Scalars['Int'];
+};
+
+
+export type MutationEditCommentArgs = {
+  commentId: Scalars['Int'];
+  payload: Scalars['String'];
+};
+
+
+export type MutationEditPhotoArgs = {
+  caption?: InputMaybe<Scalars['String']>;
+  photoId: Scalars['Int'];
+};
+
+
+export type MutationEditProfileArgs = {
+  avatar?: InputMaybe<Scalars['Upload']>;
+  email?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationExitRoomArgs = {
+  roomId: Scalars['Int'];
+};
+
+
+export type MutationFollowArgs = {
+  userId: Scalars['Int'];
+};
+
+
+export type MutationLikePhotoArgs = {
+  photoId: Scalars['Int'];
+};
+
+
+export type MutationLoginArgs = {
+  password: Scalars['String'];
+  username: Scalars['String'];
+};
+
+
+export type MutationReadMessageArgs = {
+  messageId: Scalars['Int'];
+};
+
+
+export type MutationSignUpArgs = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+  username: Scalars['String'];
+};
+
+
+export type MutationUnfollowArgs = {
+  userId: Scalars['Int'];
+};
+
+
+export type MutationUnlikePhotoArgs = {
+  photoId: Scalars['Int'];
+};
+
+export type MutationRes = {
+  __typename?: 'MutationRes';
+  error?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  ok: Scalars['Boolean'];
+};
+
+export type Photo = {
+  __typename?: 'Photo';
+  caption?: Maybe<Scalars['String']>;
+  createdAt: Scalars['String'];
+  id: Scalars['Int'];
+  isLiked: Scalars['Boolean'];
+  totalComments: Scalars['Int'];
+  totalLikes: Scalars['Int'];
+  updatedAt: Scalars['String'];
+  url: Scalars['String'];
+  user: User;
+};
+
+export type Query = {
+  __typename?: 'Query';
+  photoDetail?: Maybe<Photo>;
+  searchHashtags?: Maybe<Array<Maybe<Hashtag>>>;
+  searchUsers?: Maybe<Array<Maybe<User>>>;
+  seeComments?: Maybe<Array<Maybe<Comment>>>;
+  seeFeed?: Maybe<Array<Maybe<Photo>>>;
+  seeFollowers?: Maybe<Array<Maybe<User>>>;
+  seeFollowing?: Maybe<Array<Maybe<User>>>;
+  seeLikeUsers?: Maybe<Array<Maybe<User>>>;
+  seeMe?: Maybe<User>;
+  seeMessages?: Maybe<Array<Maybe<Message>>>;
+  seePhotosByHashtag?: Maybe<Array<Maybe<Photo>>>;
+  seePhotosByUser?: Maybe<Array<Maybe<Photo>>>;
+  seeProfile?: Maybe<User>;
+  seeRoom?: Maybe<Room>;
+  seeRooms?: Maybe<Array<Maybe<Room>>>;
+};
+
+
+export type QueryPhotoDetailArgs = {
+  photoId: Scalars['Int'];
+};
+
+
+export type QuerySearchHashtagsArgs = {
+  key: Scalars['String'];
+};
+
+
+export type QuerySearchUsersArgs = {
+  key: Scalars['String'];
+};
+
+
+export type QuerySeeCommentsArgs = {
+  offset?: InputMaybe<Scalars['Int']>;
+  photoId: Scalars['Int'];
+  take?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type QuerySeeFeedArgs = {
+  offset?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type QuerySeeFollowersArgs = {
+  userId: Scalars['Int'];
+};
+
+
+export type QuerySeeFollowingArgs = {
+  userId: Scalars['Int'];
+};
+
+
+export type QuerySeeLikeUsersArgs = {
+  photoId: Scalars['Int'];
+};
+
+
+export type QuerySeeMessagesArgs = {
+  roomId: Scalars['Int'];
+};
+
+
+export type QuerySeePhotosByHashtagArgs = {
+  hashtagId: Scalars['Int'];
+};
+
+
+export type QuerySeePhotosByUserArgs = {
+  userId: Scalars['Int'];
+};
+
+
+export type QuerySeeProfileArgs = {
+  userId: Scalars['Int'];
+};
+
+
+export type QuerySeeRoomArgs = {
+  roomId: Scalars['Int'];
+};
+
+export type Room = {
+  __typename?: 'Room';
+  createdAt: Scalars['String'];
+  id: Scalars['Int'];
+  totalUnread: Scalars['Int'];
+  updatedAt: Scalars['String'];
+  users?: Maybe<Array<Maybe<User>>>;
+};
+
+export type Subscription = {
+  __typename?: 'Subscription';
+  roomUpdated?: Maybe<Message>;
+};
+
+
+export type SubscriptionRoomUpdatedArgs = {
+  roomId: Scalars['Int'];
+};
+
+export type User = {
+  __typename?: 'User';
+  avatar?: Maybe<Scalars['String']>;
+  createdAt: Scalars['String'];
+  email?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  isFollowing: Scalars['Boolean'];
+  totalFollowers: Scalars['Int'];
+  totalFollowing: Scalars['Int'];
+  totalPosts: Scalars['Int'];
+  updatedAt: Scalars['String'];
+  username: Scalars['String'];
+};
+
+export type LoginMutationVariables = Exact<{
+  username: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginRes', ok: boolean, token?: string | null, error?: string | null } };
+
+
+export const LoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"login"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"username"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"password"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"username"},"value":{"kind":"Variable","name":{"kind":"Name","value":"username"}}},{"kind":"Argument","name":{"kind":"Name","value":"password"},"value":{"kind":"Variable","name":{"kind":"Name","value":"password"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ok"}},{"kind":"Field","name":{"kind":"Name","value":"token"}},{"kind":"Field","name":{"kind":"Name","value":"error"}}]}}]}}]} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;
