@@ -12,3 +12,8 @@ export const saveToken = async (token) => {
   tokenVar(token);
   await AsyncStorage.setItem("token", token);
 };
+
+export const removeToken = async () => {
+  tokenVar("");
+  await AsyncStorage.removeItem("token");
+};

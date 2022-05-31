@@ -12,7 +12,7 @@ import {
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { saveToken } from "../variables";
 import { ActivityIndicator } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LoginMutation, LoginMutationVariables } from "../generated/generated";
 
 const Container = styled.View`
@@ -77,13 +77,16 @@ interface Inputs {
   password: string;
 }
 
-const Login = ({ navigation }) => {
+const Login = ({ navigation, route: { params } }) => {
   const theme = useTheme();
   const {
     control,
     handleSubmit,
-    formState: { isValid, errors },
-  } = useForm<Inputs>({ mode: "onChange" });
+    formState: { isValid },
+  } = useForm<Inputs>({
+    mode: "onChange",
+    defaultValues: { username: params?.username, password: params?.password },
+  });
   const [error, setError] = useState("");
 
   const updateMutation: MutationUpdaterFunction<
@@ -107,7 +110,7 @@ const Login = ({ navigation }) => {
   });
 
   const onValid: SubmitHandler<Inputs> = ({ username, password }) => {
-    loginMutation({ variables: { username, password } });
+    if (!loading) loginMutation({ variables: { username, password } });
   };
 
   return (
@@ -120,8 +123,9 @@ const Login = ({ navigation }) => {
         name="username"
         control={control}
         rules={{ required: true }}
-        render={({ field: { onChange } }) => (
+        render={({ field: { onChange, ...rest } }) => (
           <FormInput
+            {...rest}
             onChangeText={onChange}
             placeholderTextColor={theme.colors.borderColor}
             placeholder="Username"
@@ -132,12 +136,14 @@ const Login = ({ navigation }) => {
         name="password"
         control={control}
         rules={{ required: true }}
-        render={({ field: { onChange } }) => (
+        render={({ field: { onChange, ...rest } }) => (
           <FormInput
+            {...rest}
             onChangeText={onChange}
             onSubmitEditing={handleSubmit(onValid)}
             placeholderTextColor={theme.colors.borderColor}
             placeholder="Password"
+            secureTextEntry={true}
           />
         )}
       />
