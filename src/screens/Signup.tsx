@@ -87,8 +87,9 @@ const Signup = ({ navigation }) => {
     control,
     handleSubmit,
     getValues,
+    setFocus,
     formState: { isValid },
-  } = useForm({ mode: "onChange" });
+  } = useForm<Inputs>({ mode: "onChange" });
 
   const updateMutation: MutationUpdaterFunction<
     SignUpMutation,
@@ -136,11 +137,14 @@ const Signup = ({ navigation }) => {
         control={control}
         name="username"
         rules={{ required: true }}
-        render={({ field: { onChange } }) => (
+        render={({ field: { onChange, ...rest } }) => (
           <FormInput
+            {...rest}
             onChangeText={onChange}
             placeholderTextColor={theme.colors.borderColor}
             placeholder="Username"
+            onSubmitEditing={() => setFocus("email")}
+            returnKeyType="next"
           />
         )}
       />
@@ -148,11 +152,14 @@ const Signup = ({ navigation }) => {
         control={control}
         name="email"
         rules={{ required: true }}
-        render={({ field: { onChange } }) => (
+        render={({ field: { onChange, ...rest } }) => (
           <FormInput
+            {...rest}
             onChangeText={onChange}
             placeholderTextColor={theme.colors.borderColor}
             placeholder="Email"
+            onSubmitEditing={() => setFocus("password")}
+            returnKeyType="next"
           />
         )}
       />
@@ -160,12 +167,15 @@ const Signup = ({ navigation }) => {
         control={control}
         name="password"
         rules={{ required: true }}
-        render={({ field: { onChange } }) => (
+        render={({ field: { onChange, ...rest } }) => (
           <FormInput
+            {...rest}
             onChangeText={onChange}
             placeholderTextColor={theme.colors.borderColor}
             placeholder="Password"
             secureTextEntry={true}
+            onSubmitEditing={() => setFocus("passwordConfirm")}
+            returnKeyType="next"
           />
         )}
       />
@@ -173,8 +183,9 @@ const Signup = ({ navigation }) => {
         control={control}
         name="passwordConfirm"
         rules={{ required: true }}
-        render={({ field: { onChange } }) => (
+        render={({ field: { onChange, ...rest } }) => (
           <FormInput
+            {...rest}
             onChangeText={onChange}
             onSubmitEditing={handleSubmit(onValid)}
             placeholderTextColor={theme.colors.borderColor}

@@ -5,9 +5,9 @@ import AuthNav from "./src/navigators/AuthNav";
 import { darkTheme } from "./src/themes";
 import { ApolloProvider, useReactiveVar } from "@apollo/client";
 import client from "./src/client";
-import TabNav from "./src/navigators/TabNav";
 import { initToken, tokenVar } from "./src/variables";
 import { useEffect } from "react";
+import TabNav from "./src/navigators/TabNav";
 
 export default function App() {
   useEffect(() => {

@@ -57,34 +57,18 @@ const Username = styled.Text`
   padding: 0 20px;
 `;
 
-const ButtonBox = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-  margin-top: 20px;
-  margin-bottom: 40px;
-  padding: 0 20px;
-`;
-
-const Button = styled.TouchableOpacity`
+const EditBtn = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   height: 34px;
-  width: 150px;
+  margin: 20px;
+  margin-bottom: 40px;
   border-style: solid;
   border-width: 1px;
   border-color: ${(props) => props.theme.colors.borderColor};
 `;
 
-const FollowBtn = styled(Button)``;
-
-const FollowBtnTxt = styled.Text`
-  color: ${(props) => props.theme.colors.textColor};
-  font-weight: 600;
-`;
-
-const MessageBtn = styled(Button)``;
-
-const MessageBtnTxt = styled.Text`
+const EditBtnTxt = styled.Text`
   color: ${(props) => props.theme.colors.textColor};
   font-weight: 600;
 `;
@@ -117,29 +101,20 @@ const MyProfile = ({ navigation, route: { params } }) => {
   const { data, loading } = useQuery<
     SeeProfileWithPhotosQuery,
     SeeProfileWithPhotosQueryVariables
-  >(SEE_PROFILE_QUERY, { variables: { userId: params?.userId } });
-
-  useEffect(() => {
-    if (meData?.seeMe?.id == params.userId) {
-      navigation.goBack();
-      navigation.navigate("MyProfileStack");
-    }
-  }, []);
+  >(SEE_PROFILE_QUERY, { variables: { userId: meData?.seeMe?.id } });
 
   useEffect(() => {
     navigation.setOptions({
-      headerTitle: () => (
-        <HeaderTitle>{data?.seeProfile?.username}</HeaderTitle>
-      ),
+      headerTitle: () => <HeaderTitle>{meData?.seeMe?.username}</HeaderTitle>,
     });
-  }, [data]);
+  }, []);
 
   return loading ? (
     <Loading />
   ) : (
     <Container>
       <UserBox>
-        <Avatar size={70} avatar={data.seeProfile.avatar} />
+        <Avatar size={70} avatar={meData?.seeMe?.avatar} />
         <TotalBox>
           <TotalContainer>
             <TotalNumber>{data?.seeProfile.totalPosts}</TotalNumber>
@@ -159,17 +134,10 @@ const MyProfile = ({ navigation, route: { params } }) => {
           </TotalContainer>
         </TotalBox>
       </UserBox>
-      <Username>{data.seeProfile.username}</Username>
-      <ButtonBox>
-        <FollowBtn>
-          <FollowBtnTxt>
-            {data.seeProfile.isFollowing ? "Unfollow" : "Follow"}
-          </FollowBtnTxt>
-        </FollowBtn>
-        <MessageBtn>
-          <MessageBtnTxt>Message</MessageBtnTxt>
-        </MessageBtn>
-      </ButtonBox>
+      <Username>{meData?.seeMe?.username}</Username>
+      <EditBtn>
+        <EditBtnTxt>Edit profile</EditBtnTxt>
+      </EditBtn>
       <FlatList
         data={data?.seePhotosByUser}
         numColumns={3}

@@ -1,5 +1,6 @@
 import { makeVar } from "@apollo/client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import client from "./client";
 
 export const tokenVar = makeVar("");
 
@@ -14,6 +15,7 @@ export const saveToken = async (token) => {
 };
 
 export const removeToken = async () => {
-  tokenVar("");
   await AsyncStorage.removeItem("token");
+  tokenVar("");
+  client.clearStore();
 };
