@@ -8,6 +8,7 @@ import styled, { useTheme } from "styled-components/native";
 import Logo from "../components/Logo";
 import { removeToken } from "../variables";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import EditProfile from "../screens/EditProfile";
 
 const LogoContainer = styled.View`
   margin-top: 6px;
@@ -63,6 +64,7 @@ const SharedStackNav = ({ navigation: { setParams }, route: { name } }) => {
       )}
       <Stack.Screen name="Comments" component={Comments} />
       <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="EditProfile" component={EditProfile} />
     </Stack.Navigator>
   );
 };

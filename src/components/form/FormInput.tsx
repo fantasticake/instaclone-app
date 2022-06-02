@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 const FormInput = styled.TextInput`
   justify-content: center;
   align-items: center;
-  width: 90%;
+  width: 100%;
   height: 46px;
   padding: 0 20px;
   border-radius: 6px;

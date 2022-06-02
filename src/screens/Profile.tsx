@@ -3,7 +3,9 @@ import { useEffect } from "react";
 import { Dimensions, FlatList } from "react-native";
 import styled from "styled-components/native";
 import Avatar from "../components/Avatar";
+import FollowBtn from "../components/FollowBtn";
 import Loading from "../components/Loading";
+import MessageBtn from "../components/MessageBtn";
 import {
   SeeProfileWithPhotosQuery,
   SeeProfileWithPhotosQueryVariables,
@@ -65,28 +67,9 @@ const ButtonBox = styled.View`
   padding: 0 20px;
 `;
 
-const Button = styled.TouchableOpacity`
-  justify-content: center;
-  align-items: center;
+const ButtonContainer = styled.View`
   height: 34px;
   width: 150px;
-  border-style: solid;
-  border-width: 1px;
-  border-color: ${(props) => props.theme.colors.borderColor};
-`;
-
-const FollowBtn = styled(Button)``;
-
-const FollowBtnTxt = styled.Text`
-  color: ${(props) => props.theme.colors.textColor};
-  font-weight: 600;
-`;
-
-const MessageBtn = styled(Button)``;
-
-const MessageBtnTxt = styled.Text`
-  color: ${(props) => props.theme.colors.textColor};
-  font-weight: 600;
 `;
 
 const Photo = styled.Image``;
@@ -150,7 +133,7 @@ const MyProfile = ({ navigation, route: { params } }) => {
           <TotalContainer>
             <TotalNumber>{data?.seeProfile.totalFollowers}</TotalNumber>
             <TotalTxt>
-              {formatString(data?.seeProfile.totalFollowers, "Followers")}
+              {formatString(data?.seeProfile.totalFollowers, "Follower")}
             </TotalTxt>
           </TotalContainer>
           <TotalContainer>
@@ -161,14 +144,15 @@ const MyProfile = ({ navigation, route: { params } }) => {
       </UserBox>
       <Username>{data.seeProfile.username}</Username>
       <ButtonBox>
-        <FollowBtn>
-          <FollowBtnTxt>
-            {data.seeProfile.isFollowing ? "Unfollow" : "Follow"}
-          </FollowBtnTxt>
-        </FollowBtn>
-        <MessageBtn>
-          <MessageBtnTxt>Message</MessageBtnTxt>
-        </MessageBtn>
+        <ButtonContainer>
+          <FollowBtn
+            userId={data.seeProfile.id}
+            isFollowing={data.seeProfile.isFollowing}
+          />
+        </ButtonContainer>
+        <ButtonContainer>
+          <MessageBtn />
+        </ButtonContainer>
       </ButtonBox>
       <FlatList
         data={data?.seePhotosByUser}

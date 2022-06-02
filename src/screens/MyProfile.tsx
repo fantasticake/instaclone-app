@@ -135,7 +135,7 @@ const MyProfile = ({ navigation, route: { params } }) => {
         </TotalBox>
       </UserBox>
       <Username>{meData?.seeMe?.username}</Username>
-      <EditBtn>
+      <EditBtn onPress={() => navigation.navigate("EditProfile")}>
         <EditBtnTxt>Edit profile</EditBtnTxt>
       </EditBtn>
       <FlatList

@@ -3,7 +3,7 @@ import { setContext } from "@apollo/client/link/context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const httpLink = createHttpLink({
-  uri: "https://shaky-taxis-add-175-215-45-118.loca.lt/graphql",
+  uri: "https://legal-items-feel-175-215-45-118.loca.lt/graphql",
 });
 
 const authLink = setContext(async (_, headers) => {

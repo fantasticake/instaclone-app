@@ -29,7 +29,9 @@ const Input = styled.TextInput`
   color: ${(props) => props.theme.colors.textColor};
 `;
 
-const PostBtn = styled.TouchableOpacity``;
+const PostBtn = styled.TouchableOpacity`
+  opacity: ${(props) => (props.disabled ? "0.6" : 1)};
+`;
 
 const PostBtnTxt = styled.Text`
   color: ${(props) => props.theme.colors.blue};
@@ -52,7 +54,13 @@ interface Inputs {
 const CommentInput = ({ photoId }: { photoId: number }) => {
   const meData = useMe();
   const theme = useTheme();
-  const { control, handleSubmit, getValues, setValue } = useForm<Inputs>({
+  const {
+    control,
+    handleSubmit,
+    getValues,
+    setValue,
+    formState: { isValid },
+  } = useForm<Inputs>({
     mode: "onChange",
   });
 
@@ -141,7 +149,7 @@ const CommentInput = ({ photoId }: { photoId: number }) => {
           />
         )}
       />
-      <PostBtn onPress={handleSubmit(onValid)}>
+      <PostBtn disabled={!isValid} onPress={handleSubmit(onValid)}>
         <PostBtnTxt>Post</PostBtnTxt>
       </PostBtn>
     </Container>

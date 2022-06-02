@@ -20,6 +20,7 @@ const Container = styled.View`
   justify-content: center;
   align-items: center;
   background-color: ${(props) => props.theme.colors.backgroundColor};
+  padding: 0 20px;
 `;
 
 const LogoContainer = styled.View`
