@@ -3,17 +3,20 @@ import { faComment, faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useNavigation } from "@react-navigation/native";
-import { FlatList } from "react-native";
+import { useEffect, useState } from "react";
+import { Dimensions, FlatList } from "react-native";
 import styled, { useTheme } from "styled-components/native";
 import {
   SeeCommentsQuery,
   SeeCommentsQueryVariables,
 } from "../generated/generated";
+import useImageRatio from "../hooks/useImageRatio";
 import useMe from "../hooks/useMe";
 import { formatNumber } from "../utils";
 import Avatar from "./Avatar";
 import CommentInput from "./CommentInput";
 import LikeBtn from "./LikeBtn";
+import Loading from "./Loading";
 
 const Container = styled.View`
   margin-bottom: 10px;
@@ -39,7 +42,6 @@ const Username = styled.Text`
 
 const Image = styled.Image`
   width: 100%;
-  height: 300px;
 `;
 
 const ControlBox = styled.View`
@@ -122,15 +124,16 @@ const Feed = ({
   };
 }) => {
   const navigation = useNavigation<any>();
-  const meData = useMe();
   const theme = useTheme();
+  const windowWidth = Dimensions.get("window").width;
+  const { photoRatio, loading } = useImageRatio(photo.url);
   const { data } = useQuery<SeeCommentsQuery, SeeCommentsQueryVariables>(
     SEE_COMMENTS_QUERY,
     { variables: { photoId: photo.id, take: 2 } }
   );
 
   return (
-    <Container key={photo.id}>
+    <Container>
       <UserBoxBtn
         onPress={() =>
           navigation.navigate("Profile", { userId: photo?.user.id })
@@ -141,7 +144,14 @@ const Feed = ({
           <Username>{photo.user.username}</Username>
         </UserInfo>
       </UserBoxBtn>
-      <Image source={{ uri: photo.url }} />
+      {loading ? (
+        <Loading />
+      ) : (
+        <Image
+          style={{ height: windowWidth * photoRatio }}
+          source={{ uri: photo.url }}
+        />
+      )}
       <ControlBox>
         <Button>
           <LikeBtn photoId={photo.id} isLiked={photo.isLiked} />

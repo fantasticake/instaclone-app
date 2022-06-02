@@ -9,6 +9,7 @@ import Logo from "../components/Logo";
 import { removeToken } from "../variables";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import EditProfile from "../screens/EditProfile";
+import CameraNav from "./CameraNav";
 
 const LogoContainer = styled.View`
   margin-top: 6px;

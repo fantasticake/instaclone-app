@@ -107,7 +107,7 @@ const MyProfile = ({ navigation, route: { params } }) => {
     navigation.setOptions({
       headerTitle: () => <HeaderTitle>{meData?.seeMe?.username}</HeaderTitle>,
     });
-  }, []);
+  }, [meData]);
 
   return loading ? (
     <Loading />

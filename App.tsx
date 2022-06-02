@@ -8,6 +8,7 @@ import client from "./src/client";
 import { initToken, tokenVar } from "./src/variables";
 import { useEffect } from "react";
 import TabNav from "./src/navigators/TabNav";
+import RootStack from "./src/navigators/RootStack";
 
 export default function App() {
   useEffect(() => {
@@ -20,7 +21,7 @@ export default function App() {
       <ThemeProvider theme={darkTheme}>
         <NavigationContainer>
           <StatusBar barStyle="light-content" />
-          {token ? <TabNav /> : <AuthNav />}
+          {token ? <RootStack /> : <AuthNav />}
         </NavigationContainer>
       </ThemeProvider>
     </ApolloProvider>

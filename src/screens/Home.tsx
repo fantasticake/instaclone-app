@@ -45,7 +45,7 @@ const Home = () => {
     setRefreshing(false);
   };
 
-  return loading ? (
+  return loading || !data?.seeFeed ? (
     <Loading />
   ) : (
     <Container>
