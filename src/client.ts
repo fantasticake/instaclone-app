@@ -26,7 +26,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 });
 
 const uploadLink = createUploadLink({
-  uri: "https://a876-175-215-45-118.jp.ngrok.io/graphql",
+  uri: "https://7146-175-215-45-118.jp.ngrok.io/graphql",
 });
 
 const client = new ApolloClient({

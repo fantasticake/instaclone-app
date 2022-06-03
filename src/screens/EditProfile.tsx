@@ -121,7 +121,7 @@ const EditProfile = ({ navigation }) => {
     <Container>
       <AvatarBox>
         <Avatar size={80} avatar={meData.seeMe.avatar} />
-        <ChangeAvatarBtn onPress={() => navigation.navigate("CameraNav")}>
+        <ChangeAvatarBtn onPress={() => navigation.navigate("UploadStack")}>
           <ChangeAvatarBtnTxt>Change profile photo</ChangeAvatarBtnTxt>
         </ChangeAvatarBtn>
       </AvatarBox>

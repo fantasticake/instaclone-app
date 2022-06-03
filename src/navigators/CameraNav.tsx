@@ -2,12 +2,20 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { useEffect } from "react";
 import { useTheme } from "styled-components/native";
-import UploadStack from "./UploadStack";
+import CameraScreen from "../screens/Camera";
+import Gallery from "../screens/Gallery";
 
 const Tab = createMaterialTopTabNavigator();
 
-const CameraNav = () => {
+const CameraNav = ({ navigation, route }) => {
   const theme = useTheme();
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: getFocusedRouteNameFromRoute(route) || "Gallery",
+    });
+  }, [route]);
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -24,16 +32,8 @@ const CameraNav = () => {
       }}
       tabBarPosition="bottom"
     >
-      <Tab.Screen
-        options={{ tabBarLabel: "Gallery" }}
-        name="GalleryStack"
-        component={UploadStack}
-      />
-      <Tab.Screen
-        options={{ tabBarLabel: "Camera" }}
-        name="CameraStack"
-        component={UploadStack}
-      />
+      <Tab.Screen name="Gallery" component={Gallery} />
+      <Tab.Screen name="Camera" component={CameraScreen} />
     </Tab.Navigator>
   );
 };

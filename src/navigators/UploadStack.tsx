@@ -1,11 +1,10 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { useTheme } from "styled-components/native";
-import Camera from "../screens/Camera";
-import Gallery from "../screens/Gallery";
+import CameraNav from "./CameraNav";
 
 const Stack = createStackNavigator();
 
-const UploadStack = ({ route }) => {
+const UploadStack = () => {
   const theme = useTheme();
   return (
     <Stack.Navigator
@@ -16,12 +15,7 @@ const UploadStack = ({ route }) => {
         headerTintColor: theme.colors.textColor,
       }}
     >
-      {route.name == "GalleryStack" ? (
-        <Stack.Screen name="Gallery" component={Gallery} />
-      ) : null}
-      {route.name == "CameraStack" ? (
-        <Stack.Screen name="Camera" component={Camera} />
-      ) : null}
+      <Stack.Screen name="CameraNav" component={CameraNav} />
     </Stack.Navigator>
   );
 };

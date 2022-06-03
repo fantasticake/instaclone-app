@@ -19,6 +19,7 @@ import {
 import useMe from "../hooks/useMe";
 import { ReactNativeFile } from "apollo-upload-client";
 import mime from "mime";
+import { useIsFocused } from "@react-navigation/native";
 
 const HeaderRightBtn = styled.TouchableOpacity`
   margin-right: 16px;
@@ -60,6 +61,7 @@ const Gallery = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const [selectedImg, setSelectedImg] = useState(0);
   const windowWidth = Dimensions.get("window").width;
+  const isFocused = useIsFocused();
 
   const updateMutation: MutationUpdaterFunction<
     EditProfileMutation,
@@ -76,6 +78,7 @@ const Gallery = ({ navigation }) => {
           },
         },
       });
+      navigation.navigate("EditProfile");
     }
   };
 
@@ -84,7 +87,6 @@ const Gallery = ({ navigation }) => {
     EditProfileMutationVariables
   >(EDIT_PROFILE_MUTATION, {
     update: updateMutation,
-    onError: (error) => console.log(error),
   });
 
   const onHeaderRight = () => {
@@ -116,21 +118,21 @@ const Gallery = ({ navigation }) => {
   );
 
   useEffect(() => {
-    navigation.setOptions({ headerRight });
+    navigation.getParent().setOptions({ headerRight });
   }, [headerRight]);
 
   useEffect(() => {
-    if (status) {
+    if (isFocused && status) {
       if (status.granted) {
         MediaLibrary.getAssetsAsync().then((r) => {
-          setPhotos(r.assets);
+          setPhotos(r.assets.slice().reverse());
           setLoading(false);
         });
       } else if (status.canAskAgain) {
         requestPermission();
       }
     }
-  }, [status, requestPermission]);
+  }, [isFocused, status, requestPermission]);
 
   return loading ? (
     <Loading />

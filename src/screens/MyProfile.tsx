@@ -66,6 +66,7 @@ const EditBtn = styled.TouchableOpacity`
   border-style: solid;
   border-width: 1px;
   border-color: ${(props) => props.theme.colors.borderColor};
+  border-radius: 6px;
 `;
 
 const EditBtnTxt = styled.Text`
