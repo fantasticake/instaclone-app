@@ -2,6 +2,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faHome,
   faHomeUser,
+  faSearch,
+  faSearchPlus,
   faUserCircle as faUserCircleSolid,
 } from "@fortawesome/free-solid-svg-icons";
 import { faUserCircle } from "@fortawesome/free-regular-svg-icons";
@@ -38,6 +40,19 @@ const TabNav = () => {
           ),
         }}
         name="HomeStack"
+        component={SharedStackNav}
+      />
+      <Tab.Screen
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <FontAwesomeIcon
+              color={color}
+              size={size}
+              icon={focused ? faSearchPlus : faSearch}
+            />
+          ),
+        }}
+        name="SearchStack"
         component={SharedStackNav}
       />
       <Tab.Screen

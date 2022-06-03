@@ -72,6 +72,8 @@ const ButtonContainer = styled.View`
   width: 150px;
 `;
 
+const PostBtn = styled.TouchableOpacity``;
+
 const Photo = styled.Image``;
 
 const SEE_PROFILE_QUERY = gql`
@@ -158,10 +160,14 @@ const MyProfile = ({ navigation, route: { params } }) => {
         data={data?.seePhotosByUser}
         numColumns={3}
         renderItem={({ item: photo }) => (
-          <Photo
-            style={{ width: WINDOW_WIDTH / 3, height: WINDOW_WIDTH / 3 }}
-            source={{ uri: photo.url }}
-          />
+          <PostBtn
+            onPress={() => navigation.navigate("Post", { photoId: photo.id })}
+          >
+            <Photo
+              style={{ width: WINDOW_WIDTH / 3, height: WINDOW_WIDTH / 3 }}
+              source={{ uri: photo.url }}
+            />
+          </PostBtn>
         )}
       />
     </Container>

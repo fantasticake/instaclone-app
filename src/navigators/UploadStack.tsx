@@ -1,5 +1,6 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { useTheme } from "styled-components/native";
+import CreatePost from "../screens/CreatePost";
 import CameraNav from "./CameraNav";
 
 const Stack = createStackNavigator();
@@ -16,6 +17,11 @@ const UploadStack = () => {
       }}
     >
       <Stack.Screen name="CameraNav" component={CameraNav} />
+      <Stack.Screen
+        options={{ headerTitle: "New Post" }}
+        name="CreatePost"
+        component={CreatePost}
+      />
     </Stack.Navigator>
   );
 };

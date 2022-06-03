@@ -60,7 +60,7 @@ const Username = styled.Text`
 const EditBtn = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
-  height: 34px;
+  height: 40px;
   margin: 20px;
   margin-bottom: 40px;
   border-style: solid;
@@ -73,6 +73,8 @@ const EditBtnTxt = styled.Text`
   color: ${(props) => props.theme.colors.textColor};
   font-weight: 600;
 `;
+
+const PostBtn = styled.TouchableOpacity``;
 
 const Photo = styled.Image``;
 
@@ -143,10 +145,14 @@ const MyProfile = ({ navigation, route: { params } }) => {
         data={data?.seePhotosByUser}
         numColumns={3}
         renderItem={({ item: photo }) => (
-          <Photo
-            style={{ width: WINDOW_WIDTH / 3, height: WINDOW_WIDTH / 3 }}
-            source={{ uri: photo.url }}
-          />
+          <PostBtn
+            onPress={() => navigation.navigate("Post", { photoId: photo.id })}
+          >
+            <Photo
+              style={{ width: WINDOW_WIDTH / 3, height: WINDOW_WIDTH / 3 }}
+              source={{ uri: photo.url }}
+            />
+          </PostBtn>
         )}
       />
     </Container>

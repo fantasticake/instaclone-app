@@ -26,7 +26,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 });
 
 const uploadLink = createUploadLink({
-  uri: "https://7146-175-215-45-118.jp.ngrok.io/graphql",
+  uri: "https://3301-175-215-45-118.jp.ngrok.io/graphql",
 });
 
 const client = new ApolloClient({
@@ -39,7 +39,17 @@ const client = new ApolloClient({
           seeFeed: {
             keyArgs: false,
             merge: (existing = [], incoming) => {
-              return [...existing, ...incoming];
+              const array = [...existing, ...incoming];
+              const uniqueArray = array.filter((value, index) => {
+                const _value = JSON.stringify(value);
+                return (
+                  index ===
+                  array.findIndex((obj) => {
+                    return JSON.stringify(obj) === _value;
+                  })
+                );
+              });
+              return uniqueArray;
             },
           },
         },

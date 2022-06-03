@@ -5,10 +5,14 @@ import {
   MutationUpdaterFunction,
   useMutation,
 } from "@apollo/client";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { useEffect } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { ActivityIndicator } from "react-native";
-import styled from "styled-components/native";
+import styled, { useTheme } from "styled-components/native";
 import Avatar from "../components/Avatar";
+import CheckBtn from "../components/CheckBtn";
 import FormBtn from "../components/form/FormBtn";
 import Loading from "../components/Loading";
 import {
@@ -17,22 +21,26 @@ import {
 } from "../generated/generated";
 import useMe from "../hooks/useMe";
 
+const HeaderRightContainer = styled.View`
+  margin-right: 16px;
+`;
+
 const Container = styled.View`
   flex: 1;
   background-color: ${(props) => props.theme.colors.backgroundColor};
-  padding: 20px;
+  padding: 30px 20px;
 `;
 
 const AvatarBox = styled.View`
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 `;
 
 const ChangeAvatarBtn = styled.TouchableOpacity``;
 
 const ChangeAvatarBtnTxt = styled.Text`
   color: ${(props) => props.theme.colors.blue};
-  margin-top: 10px;
+  margin-top: 16px;
   font-size: 16px;
 `;
 
@@ -51,15 +59,6 @@ const Input = styled.TextInput`
   color: ${(props) => props.theme.colors.textColor};
 `;
 
-const SaveBtnContainer = styled.View`
-  margin-top: 16px;
-`;
-
-const SaveBtnTxt = styled.Text`
-  color: ${(props) => props.theme.colors.textColor};
-  font-size: 16px;
-`;
-
 const EDIT_PROFILE_MUTATION = gql`
   mutation editProfile($email: String, $avatar: Upload) {
     editProfile(email: $email, avatar: $avatar) {
@@ -75,6 +74,7 @@ interface Inputs {
 }
 
 const EditProfile = ({ navigation }) => {
+  const theme = useTheme();
   const meData = useMe();
   const {
     control,
@@ -117,11 +117,32 @@ const EditProfile = ({ navigation }) => {
     }
   };
 
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <HeaderRightContainer>
+          {loading ? (
+            <Loading />
+          ) : (
+            <CheckBtn onPress={handleSubmit(onValid)} disabled={!isValid} />
+          )}
+        </HeaderRightContainer>
+      ),
+    });
+  }, [isValid, loading]);
+
   return meData?.seeMe ? (
     <Container>
       <AvatarBox>
         <Avatar size={80} avatar={meData.seeMe.avatar} />
-        <ChangeAvatarBtn onPress={() => navigation.navigate("UploadStack")}>
+        <ChangeAvatarBtn
+          onPress={() =>
+            navigation.navigate("UploadStack", {
+              screen: "CameraNav",
+              params: { screen: "Gallery", params: { mode: "avatar" } },
+            })
+          }
+        >
           <ChangeAvatarBtnTxt>Change profile photo</ChangeAvatarBtnTxt>
         </ChangeAvatarBtn>
       </AvatarBox>
@@ -151,11 +172,6 @@ const EditProfile = ({ navigation }) => {
           )}
         />
       </InputBox>
-      <SaveBtnContainer>
-        <FormBtn onPress={handleSubmit(onValid)} disabled={!isValid}>
-          <SaveBtnTxt>{loading ? <ActivityIndicator /> : "Save"}</SaveBtnTxt>
-        </FormBtn>
-      </SaveBtnContainer>
     </Container>
   ) : (
     <Loading />

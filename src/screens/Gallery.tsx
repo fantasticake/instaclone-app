@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Dimensions, FlatList } from "react-native";
+import { Dimensions, FlatList } from "react-native";
 import styled, { useTheme } from "styled-components/native";
 import * as MediaLibrary from "expo-media-library";
 import Loading from "../components/Loading";
@@ -17,9 +17,8 @@ import {
   EditProfileMutationVariables,
 } from "../generated/generated";
 import useMe from "../hooks/useMe";
-import { ReactNativeFile } from "apollo-upload-client";
-import mime from "mime";
 import { useIsFocused } from "@react-navigation/native";
+import { createRNFile } from "../utils";
 
 const HeaderRightBtn = styled.TouchableOpacity`
   margin-right: 16px;
@@ -53,9 +52,10 @@ const EDIT_PROFILE_MUTATION = gql`
   }
 `;
 
-const Gallery = ({ navigation }) => {
+const Gallery = ({ navigation, route: { params } }) => {
   const meData = useMe();
   const theme = useTheme();
+  const [mode, setMode] = useState("post");
   const [status, requestPermission] = MediaLibrary.usePermissions();
   const [photos, setPhotos] = useState<any>();
   const [loading, setLoading] = useState(true);
@@ -90,16 +90,16 @@ const Gallery = ({ navigation }) => {
   });
 
   const onHeaderRight = () => {
-    if (photos && photos[selectedImg] && !loadingMutation) {
+    if (photos && photos[selectedImg]) {
       const uri = photos[selectedImg].uri;
-      const file = new ReactNativeFile({
-        uri,
-        name: uri,
-        type: mime.getType(uri),
-      });
-      editProfileMutation({
-        variables: { avatar: file },
-      });
+      if (mode == "post") {
+        navigation.navigate("CreatePost", { uri });
+      } else if (mode == "avatar" && !loadingMutation) {
+        const file = createRNFile(uri);
+        editProfileMutation({
+          variables: { avatar: file },
+        });
+      }
     }
   };
 
@@ -133,6 +133,12 @@ const Gallery = ({ navigation }) => {
       }
     }
   }, [isFocused, status, requestPermission]);
+
+  useEffect(() => {
+    if (params?.mode) {
+      setMode(params.mode);
+    }
+  }, [params]);
 
   return loading ? (
     <Loading />
