@@ -18,9 +18,6 @@ const Button = styled.TouchableOpacity`
   align-items: center;
   width: 100%;
   height: 100%;
-  border-style: solid;
-  border-width: 1px;
-  border-color: ${(props) => props.theme.colors.borderColor};
 `;
 
 const BtnTxt = styled.Text`

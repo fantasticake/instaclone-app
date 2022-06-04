@@ -4,7 +4,7 @@ import styled, { useTheme } from "styled-components/native";
 import * as MediaLibrary from "expo-media-library";
 import Loading from "../components/Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faL } from "@fortawesome/free-solid-svg-icons";
 import {
   ApolloCache,
   DefaultContext,
@@ -124,8 +124,10 @@ const Gallery = ({ navigation, route: { params } }) => {
   useEffect(() => {
     if (isFocused && status) {
       if (status.granted) {
-        MediaLibrary.getAssetsAsync().then((r) => {
-          setPhotos(r.assets.slice().reverse());
+        MediaLibrary.getAssetsAsync({
+          sortBy: [["modificationTime", false]],
+        }).then((r) => {
+          setPhotos(r.assets);
           setLoading(false);
         });
       } else if (status.canAskAgain) {

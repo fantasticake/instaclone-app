@@ -3,26 +3,25 @@ import { faComment, faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useNavigation } from "@react-navigation/native";
-import { useEffect, useState } from "react";
-import { Dimensions, FlatList } from "react-native";
+import { Alert, Dimensions, FlatList } from "react-native";
 import styled, { useTheme } from "styled-components/native";
 import {
   SeeCommentsQuery,
   SeeCommentsQueryVariables,
 } from "../generated/generated";
 import useImageRatio from "../hooks/useImageRatio";
-import useMe from "../hooks/useMe";
 import { formatNumber } from "../utils";
 import Avatar from "./Avatar";
 import CommentInput from "./CommentInput";
 import LikeBtn from "./LikeBtn";
 import Loading from "./Loading";
+import MessageBtn from "./MessageBtn";
 
 const Container = styled.View`
   margin-bottom: 10px;
 `;
 
-const UserBoxBtn = styled.TouchableOpacity`
+const UserBox = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -30,7 +29,8 @@ const UserBoxBtn = styled.TouchableOpacity`
   padding: 0 14px;
 `;
 
-const UserInfo = styled.View`
+const UserBtn = styled.TouchableOpacity`
+  flex: 1;
   flex-direction: row;
   align-items: center;
 `;
@@ -39,6 +39,8 @@ const Username = styled.Text`
   margin-left: 10px;
   color: ${(props) => props.theme.colors.textColor};
 `;
+
+const SettingBtn = styled.TouchableOpacity``;
 
 const Image = styled.Image`
   width: 100%;
@@ -54,6 +56,8 @@ const ControlBox = styled.View`
 const Button = styled.TouchableOpacity`
   margin-right: 16px;
 `;
+
+const MessageBtnContainer = styled.View``;
 
 const TotalLikes = styled.Text`
   color: ${(props) => props.theme.colors.textColor};
@@ -134,16 +138,27 @@ const Feed = ({
 
   return (
     <Container>
-      <UserBoxBtn
-        onPress={() =>
-          navigation.navigate("Profile", { userId: photo?.user.id })
-        }
-      >
-        <UserInfo>
+      <UserBox>
+        <UserBtn
+          onPress={() =>
+            navigation.navigate("Profile", { userId: photo?.user.id })
+          }
+        >
           <Avatar avatar={photo.user.avatar} size={30} />
           <Username>{photo.user.username}</Username>
-        </UserInfo>
-      </UserBoxBtn>
+        </UserBtn>
+        <SettingBtn
+          onPress={() =>
+            navigation.navigate("PostSetting", { photoId: photo?.id })
+          }
+        >
+          <FontAwesomeIcon
+            size={18}
+            color={theme.colors.textColor}
+            icon={faEllipsisVertical}
+          />
+        </SettingBtn>
+      </UserBox>
       {loading ? (
         <Loading />
       ) : (
@@ -163,13 +178,15 @@ const Feed = ({
             icon={faComment}
           />
         </Button>
-        <Button>
-          <FontAwesomeIcon
-            size={24}
-            color={theme.colors.textColor}
-            icon={faPaperPlane}
-          />
-        </Button>
+        <MessageBtnContainer>
+          <MessageBtn userId={photo.user.id}>
+            <FontAwesomeIcon
+              size={24}
+              color={theme.colors.textColor}
+              icon={faPaperPlane}
+            />
+          </MessageBtn>
+        </MessageBtnContainer>
       </ControlBox>
       <CommentBox>
         <TotalLikes>{formatNumber(photo.totalLikes, "like")}</TotalLikes>

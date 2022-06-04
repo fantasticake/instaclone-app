@@ -67,9 +67,12 @@ const ButtonBox = styled.View`
   padding: 0 20px;
 `;
 
-const ButtonContainer = styled.View`
+const BtnContainer = styled.View`
   height: 34px;
   width: 150px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: ${(props) => props.theme.colors.borderColor};
 `;
 
 const PostBtn = styled.TouchableOpacity``;
@@ -146,15 +149,15 @@ const MyProfile = ({ navigation, route: { params } }) => {
       </UserBox>
       <Username>{data.seeProfile.username}</Username>
       <ButtonBox>
-        <ButtonContainer>
+        <BtnContainer>
           <FollowBtn
             userId={data.seeProfile.id}
             isFollowing={data.seeProfile.isFollowing}
           />
-        </ButtonContainer>
-        <ButtonContainer>
-          <MessageBtn />
-        </ButtonContainer>
+        </BtnContainer>
+        <BtnContainer>
+          <MessageBtn userId={params?.userId}>Message</MessageBtn>
+        </BtnContainer>
       </ButtonBox>
       <FlatList
         data={data?.seePhotosByUser}

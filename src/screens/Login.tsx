@@ -11,7 +11,7 @@ import {
 } from "@apollo/client";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { saveToken } from "../variables";
-import { ActivityIndicator, TextInput } from "react-native";
+import { ActivityIndicator } from "react-native";
 import { useState } from "react";
 import { LoginMutation, LoginMutationVariables } from "../generated/generated";
 

@@ -5,11 +5,13 @@ const useImageRatio = (url: string) => {
   const [photoRatio, setPhotoRatio] = useState(1);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    Image.getSize(url, (width, height) => {
-      setPhotoRatio(height / width);
-      setLoading(false);
-    });
-  }, []);
+    if (url) {
+      Image.getSize(url, (width, height) => {
+        setPhotoRatio(height / width);
+        setLoading(false);
+      });
+    }
+  }, [url]);
 
   return { photoRatio, loading };
 };

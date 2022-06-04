@@ -12,6 +12,9 @@ import EditProfile from "../screens/EditProfile";
 import CreatePostBtn from "../components/CreatePostBtn";
 import Post from "../screens/post";
 import Search from "../screens/Search";
+import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
+import PostSetting from "../screens/PostSetting";
+import EditPost from "../screens/EditPost";
 
 const LogoContainer = styled.View`
   margin-top: 6px;
@@ -24,13 +27,17 @@ const HeaderRightContainer = styled.View`
   margin-right: 16px;
 `;
 
+const MessageBtn = styled.TouchableOpacity`
+  margin-left: 20px;
+`;
+
 const LogoutBtn = styled.TouchableOpacity`
   margin-left: 20px;
 `;
 
 const Stack = createStackNavigator();
 
-const SharedStackNav = ({ route: { name } }) => {
+const SharedStackNav = ({ navigation, route: { name } }) => {
   const theme = useTheme();
   return (
     <Stack.Navigator
@@ -52,6 +59,13 @@ const SharedStackNav = ({ route: { name } }) => {
             headerRight: () => (
               <HeaderRightContainer>
                 <CreatePostBtn />
+                <MessageBtn onPress={() => navigation.navigate("RoomStack")}>
+                  <FontAwesomeIcon
+                    size={26}
+                    color={theme.colors.textColor}
+                    icon={faPaperPlane}
+                  />
+                </MessageBtn>
               </HeaderRightContainer>
             ),
           }}
@@ -90,6 +104,16 @@ const SharedStackNav = ({ route: { name } }) => {
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="EditProfile" component={EditProfile} />
       <Stack.Screen name="Post" component={Post} />
+      <Stack.Screen
+        options={{ headerTitle: "Post Setting" }}
+        name="PostSetting"
+        component={PostSetting}
+      />
+      <Stack.Screen
+        options={{ headerTitle: "Edit Post" }}
+        name="EditPost"
+        component={EditPost}
+      />
     </Stack.Navigator>
   );
 };
