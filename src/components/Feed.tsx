@@ -10,6 +10,7 @@ import {
   SeeCommentsQueryVariables,
 } from "../generated/generated";
 import useImageRatio from "../hooks/useImageRatio";
+import useMe from "../hooks/useMe";
 import { formatNumber } from "../utils";
 import Avatar from "./Avatar";
 import CommentInput from "./CommentInput";
@@ -127,6 +128,7 @@ const Feed = ({
     };
   };
 }) => {
+  const meData = useMe();
   const navigation = useNavigation<any>();
   const theme = useTheme();
   const windowWidth = Dimensions.get("window").width;
@@ -147,17 +149,19 @@ const Feed = ({
           <Avatar avatar={photo.user.avatar} size={30} />
           <Username>{photo.user.username}</Username>
         </UserBtn>
-        <SettingBtn
-          onPress={() =>
-            navigation.navigate("PostSetting", { photoId: photo?.id })
-          }
-        >
-          <FontAwesomeIcon
-            size={18}
-            color={theme.colors.textColor}
-            icon={faEllipsisVertical}
-          />
-        </SettingBtn>
+        {meData?.seeMe.id == photo?.user.id ? (
+          <SettingBtn
+            onPress={() =>
+              navigation.navigate("PostSetting", { photoId: photo?.id })
+            }
+          >
+            <FontAwesomeIcon
+              size={18}
+              color={theme.colors.textColor}
+              icon={faEllipsisVertical}
+            />
+          </SettingBtn>
+        ) : null}
       </UserBox>
       {loading ? (
         <Loading />

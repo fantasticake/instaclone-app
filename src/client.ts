@@ -32,7 +32,7 @@ const uploadLink = createUploadLink({
   uri:
     process.env.NODE_ENV === "production"
       ? "https://cake-instaclone-backend.herokuapp.com/graphql"
-      : "https://ac20-175-215-45-118.jp.ngrok.io/graphql",
+      : "https://1a5b-175-215-45-118.jp.ngrok.io/graphql",
 });
 
 const getToken = async () => {
@@ -44,7 +44,7 @@ const wsLink = new GraphQLWsLink(
     url:
       process.env.NODE_ENV === "production"
         ? "wss://cake-instaclone-backend.herokuapp.com/graphql"
-        : "ws://ac20-175-215-45-118.jp.ngrok.io/graphql",
+        : "ws://1a5b-175-215-45-118.jp.ngrok.io/graphql",
     connectionParams: {
       token: getToken(),
     },

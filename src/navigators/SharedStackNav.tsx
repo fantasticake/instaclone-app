@@ -102,7 +102,11 @@ const SharedStackNav = ({ navigation, route: { name } }) => {
       )}
       <Stack.Screen name="Comments" component={Comments} />
       <Stack.Screen name="Profile" component={Profile} />
-      <Stack.Screen name="EditProfile" component={EditProfile} />
+      <Stack.Screen
+        options={{ headerTitle: "Edit Profile" }}
+        name="EditProfile"
+        component={EditProfile}
+      />
       <Stack.Screen name="Post" component={Post} />
       <Stack.Screen
         options={{ headerTitle: "Post Setting" }}
